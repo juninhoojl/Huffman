@@ -21,7 +21,6 @@
 //  Para simplificar, vamos considerar que a entrada tem no maximo 5000 caracteres
 #define TAMANHO_MAX_ENTRADA 5000
 
-
 typedef struct node{
   char ch;
   float chave;
@@ -221,52 +220,20 @@ int main(int argc, const char * argv[]) {
         }
     }
 
-
-
-    //************************************************************************
-    //************************************************************************
-    // TODO: ESSA PARTE ABAIXO VOCE VAI PRECISAR REMOVER, E COLOCAR O CODIGO CERTO
-    //************************************************************************
-    //************************************************************************
-
-
-    //se voce quiser pegar o node com a menor frequencia
-    node * no_menos_frequente = (node*) extrai_min_fila_prioridade(Q);
-    //se precisar, voce pode acessar o tamanho da arvore com Q->tamanho
+    // INICIO
+    node * ne, * nd, * nf;
+    while(Q->tamanho > 1){
+          ne = extrai_min_fila_prioridade(Q);
+          nd = extrai_min_fila_prioridade(Q);
+          nf = criar_node('0', ne->chave + nd->chave, ne, nd);
+          insere_na_fila(Q, nf, nf->chave);
+    }
     
-    //vou criar uma arvore aleatoria aqui com os caracteres espaco, a, b, c, n
-    // minha arvore aleatoria eh assim, obviamente a otima eh diferente
-    /*
-            raiz
-          /      \
-         /        \
-        /\        /\
-       /  \      /  \
-     ' '  'a'  'b'   \
-                     /\
-                    /  \
-                  'c'  'n'
-    */
+    node * arvore = (node*) extrai_min_fila_prioridade(Q);
+    // FIM
     
-    node * no_n   = criar_node('n', count['n' - INICIO_ALFABETO], NULL, NULL);
-    node * no_c   = criar_node('c', count['c' - INICIO_ALFABETO], NULL, NULL);
-    node * no_b   = criar_node('b', count['b' - INICIO_ALFABETO], NULL, NULL);
-    node * no_a   = criar_node('a', count['a' - INICIO_ALFABETO], NULL, NULL);
-    node * no_es  = criar_node(' ', count[' ' - INICIO_ALFABETO], NULL, NULL);
-    node * no_cn  = criar_node(  0,     no_c->chave + no_n->chave, no_c,  no_n);
-    node * no_bcn = criar_node(  0,    no_b->chave + no_cn->chave, no_b, no_cn);
-    node * no_esa = criar_node(  0,    no_es->chave + no_a->chave, no_es, no_a);
-    node * arvore = criar_node(  0, no_esa->chave + no_bcn->chave, no_esa, no_bcn);
-
-    //************************************************************************
-    //REMOVA ATE AQUI
-    //**************************************************************************
-
-
-
-
     //imprimir a arvore para teste (comente no final)
-    print_tree(arvore); printf("\n");
+    // print_tree(arvore); printf("\n");
 
     //caracteres simples na tabela ascii tem valores entre 32 ateh 126
     //ou seja existem 95 caracteres validos e no pior caso essa eh a altura da ahrvore
@@ -280,6 +247,7 @@ int main(int argc, const char * argv[]) {
     
     percorre_arvore(arvore, tabela);
 
+    /*
     //impressao do codigo para verificacao, comente no final, (comente no final)
     for (int i = 0; i < TAMANHO_ALFABETO; ++i) {
         printf("%c: ", (char) i + 32);
@@ -294,7 +262,7 @@ int main(int argc, const char * argv[]) {
         printf("%c", entrada[i]);
     }
     printf("\n");
-   
+   */
 
     
     //Escrevendo a string em binario
@@ -304,7 +272,7 @@ int main(int argc, const char * argv[]) {
     }
 
     //impressao da string em binario para conferencia (comente no final)
-    printf("\n%s\n", str);
+    //printf("\n%s\n", str);
 
     //imprimindo o tamanho da string no final eh soh isso que vc precisa
     printf("%ld\n", strlen(str));
